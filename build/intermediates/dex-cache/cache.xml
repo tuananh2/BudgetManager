@@ -3,39 +3,21 @@
 
     <item
         is-multidex="true"
-        jar="D:\Projects\BudgetManager\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.2"
-        sha1="18d45cd7b3608d35e218ef90194ed691d440247a">
-        <dex dex="D:\Projects\BudgetManager\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_f3b2eb29e29c0e60e8d98c305538cd7acbf021f9\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="D:\Projects\BudgetManager\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jar="D:\My_Projects\BudgetManager\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
         jumboMode="true"
         optimize="true"
         revision="22.0.1"
-        sha1="feefc81171f5db8f83cc19d38a262c6387d3b413">
-        <dex dex="D:\Projects\BudgetManager\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_f3b2eb29e29c0e60e8d98c305538cd7acbf021f9\classes.dex" />
+        sha1="086c1bb8ce5bcc726cb7aa9874337335f9f40d1a">
+        <dex dex="D:\My_Projects\BudgetManager\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_a5fbdf8bec828804024ba1ba9560888e26320ccd\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="D:\Projects\BudgetManager\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jar="D:\My_Projects\BudgetManager\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
         jumboMode="true"
         optimize="true"
         revision="22.0.1"
-        sha1="9c3df94aac145cc9428180ec16442b081a09ef24">
-        <dex dex="D:\Projects\BudgetManager\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_89aeb2fd994d712d1fedeb3e56b7edda70ac1c72\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="D:\Projects\BudgetManager\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.2"
-        sha1="67875bbe454c60d2bdaa849768992b5a053b8a4d">
-        <dex dex="D:\Projects\BudgetManager\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_89aeb2fd994d712d1fedeb3e56b7edda70ac1c72\classes.dex" />
+        sha1="0953a5176d1760400d1292d8f573553342fb77cd">
+        <dex dex="D:\My_Projects\BudgetManager\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_a09eaa58d7dab53272ecb7d9f5a5172bea66ff4e\classes.dex" />
     </item>
 
 </items>

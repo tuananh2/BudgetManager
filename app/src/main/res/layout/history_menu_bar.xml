@@ -54,7 +54,7 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/border"
+        android:background="@drawable/red_border_background"
         android:paddingTop="2pt"
         android:paddingBottom="2pt">
 

@@ -2,25 +2,21 @@ package tuananh.com.budgetmanager;
 
 import android.app.Activity;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroupOverlay;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
-
-import static android.content.ContentValues.TAG;
 
 public class MainActivity extends Activity {
 
@@ -34,6 +30,7 @@ public class MainActivity extends Activity {
     public static final int MENU_WEEKLY_HISTORY         =1;
     public static final int MENU_MONTHLY_HISTORY        =2;
     public static final String TAG                      ="Anhlt2";
+    public List<String> listCategories;
 
 
     public Button btnAddTransaction ;
@@ -52,6 +49,7 @@ public class MainActivity extends Activity {
         m_nextLayout = LAYOUT_MAIN_MENU;
         m_nextMenuLayout = MENU_HISTORY;
         m_nextHistoryMenuLayout= MENU_DAILY_HISTORY;
+
         goToLayout();
     }
 
@@ -93,7 +91,10 @@ public class MainActivity extends Activity {
             {
                 setContentView(R.layout.add_transaction_layout);
 
-                TextView transactionNote = (TextView) findViewById(R.id.transaction_note);
+                EditText transactionNote = (EditText) findViewById(R.id.transaction_edit_note);
+                LinearLayout transactionCategoryName = (LinearLayout) findViewById(R.id
+                        .transaction_category_name);
+
                 transactionNote.setOnKeyListener(new View.OnKeyListener() {
                     @Override
                     public boolean onKey(View view, int i, KeyEvent keyEvent) {
@@ -113,29 +114,57 @@ public class MainActivity extends Activity {
 
                 m_currentLayout = LAYOUT_ADD_TRACSACTION;
 
-                LinearLayout transactionCategoryName = (LinearLayout) findViewById(R.id.transaction_category_name);
-                transactionCategoryName.setOnTouchListener(new View.OnTouchListener() {
+
+                transactionCategoryName.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public boolean onTouch(View view, MotionEvent motionEvent) {
-                        if(MotionEvent.ACTION_UP == motionEvent.getAction())
+                    public void onClick(View view) {
+                        Cursor cursor = myDatabase.readDatabase(Database.Entries.TABLE_CATEGORIES);
+                        LinearLayout listCategories = (LinearLayout) findViewById(R.id
+                                .list_categories);
+
+                        //listCategories.setVisibility(View.INVISIBLE);
+                        if(cursor.moveToFirst())
                         {
-                            Cursor cursor = myDatabase.readDatabase(Database.Entries.TABLE_CATEGORIES);
-                            List <String> listCategory= null;
-                            if(cursor.moveToFirst())
-                            {
-                                do {
-                                    String category = cursor.getString(cursor.getColumnIndex(Database.Entries.CATEGORY));
-                                    TextView textView = new TextView(getApplicationContext());
-                                    textView.setText(category);
+                            do {
+                                String category = cursor.getString(cursor.getColumnIndex(Database
+                                        .Entries.NAME));
+                                final TextView categoryCard = new TextView(getApplicationContext());
+                                categoryCard.setText(category);
+                                categoryCard.setTextSize(TypedValue.COMPLEX_UNIT_PT,11);
+                                categoryCard.setBackgroundResource(R.drawable.selectable_category_card_background);
+                                categoryCard.setPadding(10,6,0,6);
+                                categoryCard.setTextColor(Color.BLACK);
+                                listCategories.addView(categoryCard);
 
-                                    cursor.moveToNext();
-                                }while(!cursor.isAfterLast());
-                            }
+                                cursor.moveToNext();
 
+                                categoryCard.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        TextView categoryName = (TextView) findViewById(R.id
+                                                .transaction_edit_category_name);
+                                        categoryName.setText(categoryCard.getText());
+                                    }
+                                });
+                            }while(!cursor.isAfterLast());
                         }
-                        return false;
                     }
                 });
+
+//                transactionCategoryName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//                    @Override
+//                    public void onFocusChange(View view, boolean hasFocus) {
+//                        ScrollView listCategories = (ScrollView) findViewById(R.id
+//                                .list_categories);
+//                        if(hasFocus)
+//                        {
+//                            listCategories.setVisibility(View.VISIBLE);
+//                        }
+//                        else{
+//                            listCategories.setVisibility(View.INVISIBLE);
+//                        }
+//                    }
+//                });
 
                 break;
             }
