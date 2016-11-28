@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff">
+    <!--This textview is gona change color depend on category name-->
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffaa00">
+
+        <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id= "@+id/transaction_type"
+        android:text="Expense"
+        android:textSize="12pt"
+        android:textColor="#ffffff"
+        android:fontFamily="Arial"
+        android:textStyle="bold"
+        android:paddingTop="6pt"
+        android:paddingBottom="6pt"
+        android:paddingLeft="3pt"
+        android:layout_weight="0.2"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button_transaction_done"
+            android:background="@drawable/button_background"
+            android:paddingTop="5pt"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/border"
+        android:orientation="horizontal"
+        android:layout_gravity="center_vertical"
+        android:paddingTop="6pt"
+        android:paddingBottom="6pt"
+        android:id="@+id/transaction_category_name">
+
+        <TextView
+            android:text="Category"
+            android:textSize="10pt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight = "0.7"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight = "0.3"
+            android:textSize="10pt"
+            android:gravity="center_horizontal"
+            android:id="@+id/category_name"
+            android:background="#ffffff" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_vertical"
+        android:paddingTop="6pt"
+        android:paddingBottom="6pt"
+        android:background="@drawable/border"
+        android:id="@+id/transaction_value">
+
+        <TextView
+            android:text="Value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight = "0.7"
+            android:textSize="10pt"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight = "0.3"
+            android:id="@+id/transaction_value"
+            android:gravity="center_horizontal"
+            android:hint="Add money here"
+            android:background="#ffffff"
+            android:textSize="10pt"
+            android:inputType="number"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_vertical"
+        android:paddingTop="6pt"
+        android:paddingBottom="6pt"
+        android:background="@drawable/border"
+        android:id="@+id/transaction_notes">
+
+        <TextView
+            android:text="Note"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight = "0.7"
+            android:textSize="10pt"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight = "0.3"
+            android:id="@+id/transaction_note"
+            android:gravity="left"
+            android:hint="Add note here"
+            android:background="#ffffff"
+            android:textSize="10pt"/>
+    </LinearLayout>
+</LinearLayout>
