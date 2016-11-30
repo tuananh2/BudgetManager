@@ -121,6 +121,7 @@ public class MainActivity extends Activity {
                         Cursor cursor = myDatabase.readDatabase(Database.Entries.TABLE_CATEGORIES);
                         LinearLayout listCategories = (LinearLayout) findViewById(R.id
                                 .list_categories);
+                        listCategories.setVisibility(View.VISIBLE);
 
                         //listCategories.setVisibility(View.INVISIBLE);
                         if(cursor.moveToFirst())
@@ -132,7 +133,7 @@ public class MainActivity extends Activity {
                                 categoryCard.setText(category);
                                 categoryCard.setTextSize(TypedValue.COMPLEX_UNIT_PT,11);
                                 categoryCard.setBackgroundResource(R.drawable.selectable_category_card_background);
-                                categoryCard.setPadding(10,6,0,6);
+                                categoryCard.setPadding(10,20,0,20);
                                 categoryCard.setTextColor(Color.BLACK);
                                 listCategories.addView(categoryCard);
 

@@ -29,10 +29,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/button_transaction_done"
-            android:background="@drawable/selectable_category_card_background"
+            android:background="@drawable/button_background"
             android:paddingTop="5pt"
-            android:paddingBottom="5pt"
-            android:text="   Done   "/>
+            android:paddingBottom="5pt"/>
 
     </LinearLayout>
 
@@ -127,6 +126,7 @@
         android:id="@+id/list_categories_scroll_view">
 
         <LinearLayout
+            android:visibility="invisible"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
