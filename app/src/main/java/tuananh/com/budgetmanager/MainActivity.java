@@ -8,12 +8,14 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -34,10 +36,10 @@ public class MainActivity extends Activity {
 
 
     public Button btnAddTransaction ;
-    public int m_nextLayout, m_currentLayout;//main layout or add transition layout
-    public int m_nextMenuLayout, m_currentMenuLayout;//statistic menu or history menu
-    public int m_nextHistoryMenuLayout, m_currentHistoryMenuLayout;//daily, weekly, or monthly
-    public int m_selectedMenu;
+    public int m_NextLayout, m_currentLayout;//main layout or add transition layout
+    public int m_NextMenuLayout, m_currentMenuLayout;//statistic menu or history menu
+    public int m_NextHistoryMenuLayout, m_currentHistoryMenuLayout;//daily, weekly, or monthly
+    public boolean m_HasShownCategory=false;
     public Database myDatabase = new Database(this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,9 +48,9 @@ public class MainActivity extends Activity {
 
       //  m_selectedMenu =MENU_HISTORY;
 
-        m_nextLayout = LAYOUT_MAIN_MENU;
-        m_nextMenuLayout = MENU_HISTORY;
-        m_nextHistoryMenuLayout= MENU_DAILY_HISTORY;
+        m_NextLayout = LAYOUT_MAIN_MENU;
+        m_NextMenuLayout = MENU_HISTORY;
+        m_NextHistoryMenuLayout = MENU_DAILY_HISTORY;
 
         goToLayout();
     }
@@ -73,9 +75,9 @@ public class MainActivity extends Activity {
         if(KeyEvent.KEYCODE_BACK ==keyCode)
         {
             if(LAYOUT_ADD_TRACSACTION == m_currentLayout) {
-                m_nextLayout = LAYOUT_MAIN_MENU;
-                m_nextMenuLayout = MENU_HISTORY;
-                m_nextHistoryMenuLayout = MENU_DAILY_HISTORY;
+                m_NextLayout = LAYOUT_MAIN_MENU;
+                m_NextMenuLayout = MENU_HISTORY;
+                m_NextHistoryMenuLayout = MENU_DAILY_HISTORY;
                 goToLayout();
                 return false;
             }
@@ -85,88 +87,45 @@ public class MainActivity extends Activity {
 
     public void goToLayout()
     {
-        switch(m_nextLayout)
+        switch(m_NextLayout)
         {
             case LAYOUT_ADD_TRACSACTION:
             {
                 setContentView(R.layout.add_transaction_layout);
+                getCategoryList();
+                m_currentLayout = LAYOUT_ADD_TRACSACTION;
+                final LinearLayout transactionCategoryName = (LinearLayout) findViewById(R.id.transaction_category_name);
+                LinearLayout transactionNote =(LinearLayout) findViewById(R.id.transaction_note);
+                LinearLayout transactionValue =(LinearLayout) findViewById(R.id.transaction_value);
+                final LinearLayout listCategories = (LinearLayout) findViewById(R.id.list_categories);
+               transactionCategoryName.setOnClickListener(new View.OnClickListener() {
+                   @Override
+                   public void onClick(View view) {
+                       listCategories.setVisibility(View.VISIBLE);
+                   }
+               });
 
-                EditText transactionNote = (EditText) findViewById(R.id.transaction_edit_note);
-                LinearLayout transactionCategoryName = (LinearLayout) findViewById(R.id
-                        .transaction_category_name);
-
-                transactionNote.setOnKeyListener(new View.OnKeyListener() {
+                transactionValue.setOnTouchListener(new View.OnTouchListener() {
                     @Override
-                    public boolean onKey(View view, int i, KeyEvent keyEvent) {
-                        if(KeyEvent.KEYCODE_ENTER==i)
+                    public boolean onTouch(View view, MotionEvent motionEvent) {
+                        if(MotionEvent.ACTION_DOWN==motionEvent.getAction())
                         {
-                            if(LAYOUT_ADD_TRACSACTION == m_currentLayout)
-                            {
-                                m_nextLayout = LAYOUT_MAIN_MENU;
-                                m_nextMenuLayout = MENU_HISTORY;
-                                m_nextHistoryMenuLayout = MENU_DAILY_HISTORY;
-                                goToLayout();
-                            }
+                            listCategories.setVisibility(View.INVISIBLE);
                         }
                         return false;
                     }
                 });
 
-                m_currentLayout = LAYOUT_ADD_TRACSACTION;
-
-
-                transactionCategoryName.setOnClickListener(new View.OnClickListener() {
+                transactionNote.setOnTouchListener(new View.OnTouchListener() {
                     @Override
-                    public void onClick(View view) {
-                        Cursor cursor = myDatabase.readDatabase(Database.Entries.TABLE_CATEGORIES);
-                        LinearLayout listCategories = (LinearLayout) findViewById(R.id
-                                .list_categories);
-                        listCategories.setVisibility(View.VISIBLE);
-
-                        //listCategories.setVisibility(View.INVISIBLE);
-                        if(cursor.moveToFirst())
+                    public boolean onTouch(View view, MotionEvent motionEvent) {
+                        if(MotionEvent.ACTION_DOWN==motionEvent.getAction())
                         {
-                            do {
-                                String category = cursor.getString(cursor.getColumnIndex(Database
-                                        .Entries.NAME));
-                                final TextView categoryCard = new TextView(getApplicationContext());
-                                categoryCard.setText(category);
-                                categoryCard.setTextSize(TypedValue.COMPLEX_UNIT_PT,11);
-                                categoryCard.setBackgroundResource(R.drawable.selectable_category_card_background);
-                                categoryCard.setPadding(10,20,0,20);
-                                categoryCard.setTextColor(Color.BLACK);
-                                listCategories.addView(categoryCard);
-
-                                cursor.moveToNext();
-
-                                categoryCard.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        TextView categoryName = (TextView) findViewById(R.id
-                                                .transaction_edit_category_name);
-                                        categoryName.setText(categoryCard.getText());
-                                    }
-                                });
-                            }while(!cursor.isAfterLast());
+                            listCategories.setVisibility(View.INVISIBLE);
                         }
+                        return false;
                     }
                 });
-
-//                transactionCategoryName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//                    @Override
-//                    public void onFocusChange(View view, boolean hasFocus) {
-//                        ScrollView listCategories = (ScrollView) findViewById(R.id
-//                                .list_categories);
-//                        if(hasFocus)
-//                        {
-//                            listCategories.setVisibility(View.VISIBLE);
-//                        }
-//                        else{
-//                            listCategories.setVisibility(View.INVISIBLE);
-//                        }
-//                    }
-//                });
-
                 break;
             }
             case LAYOUT_MAIN_MENU:
@@ -178,11 +137,11 @@ public class MainActivity extends Activity {
                     @Override
                     public void onClick(View view) {
                         Log.d(TAG, "onClick: ");
-                        m_nextLayout  = LAYOUT_ADD_TRACSACTION;
+                        m_NextLayout = LAYOUT_ADD_TRACSACTION;
                         goToLayout();
                     }
                 });
-                switch (m_nextMenuLayout)
+                switch (m_NextMenuLayout)
                 {
                     case MENU_HISTORY:
                     {
@@ -195,7 +154,7 @@ public class MainActivity extends Activity {
                         historyMenuTopBar.setLayoutParams(layoutParams);
                         contentMenu.addView(historyMenuTopBar);
 
-                        switch (m_nextHistoryMenuLayout)
+                        switch (m_NextHistoryMenuLayout)
                         {
                             case MENU_DAILY_HISTORY:
                             {
@@ -223,6 +182,41 @@ public class MainActivity extends Activity {
             }
             default:
                 break;
+        }
+    }
+    public void getCategoryList()
+    {
+        Log.d(TAG, "getCategoryList: ");
+        Cursor cursor = myDatabase.readDatabase(Database.Entries.TABLE_CATEGORIES);
+        LinearLayout listCategories = (LinearLayout) findViewById(R.id
+                .list_categories);
+
+        listCategories.setVisibility(View.INVISIBLE);
+        if(cursor.moveToFirst())
+        {
+            do {
+                String category = cursor.getString(cursor.getColumnIndex(Database
+                        .Entries.NAME));
+                final TextView categoryCard = new TextView(getApplicationContext());
+                categoryCard.setText(category);
+                categoryCard.setTextSize(TypedValue.COMPLEX_UNIT_PT,11);
+                categoryCard.setBackgroundResource(R.drawable.selectable_category_card_background);
+                categoryCard.setPadding(10,20,0,20);
+                categoryCard.setTextColor(Color.BLACK);
+                listCategories.addView(categoryCard);
+
+                cursor.moveToNext();
+
+                categoryCard.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        TextView categoryName = (TextView) findViewById(R.id
+                                .transaction_edit_category_name);
+
+                        categoryName.setText(categoryCard.getText());
+                    }
+                });
+            }while(!cursor.isAfterLast());
         }
     }
 
